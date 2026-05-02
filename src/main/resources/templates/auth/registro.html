@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Registro')}"></head>
+<body class="hold-transition login-page" style="background: linear-gradient(135deg, #1d1d2e 0%, #2d2d44 100%);">
+<style>
+    .login-box-body { border-radius: 12px; border-top: 4px solid #e63946; }
+    .btn-block.btn-primary { background: #e63946; border-color: #e63946; font-weight: 700; }
+    .btn-block.btn-primary:hover { background: #c1121f; }
+    .gym-hero { color: #fff; text-align: center; margin-bottom: 5px; font-family: 'Barlow Condensed', sans-serif; letter-spacing: 4px; font-size: 3.5rem; }
+    .gym-hero span { color: #e63946; }
+    .gym-sub { color: #aaa; text-align: center; font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 20px; }
+</style>
+<div class="login-box" style="width: 420px; margin-top: 40px;">
+    <div class="gym-hero">GYM<span>SYSTEM</span></div>
+    <div class="gym-sub">CREA TU CUENTA</div>
+    <div class="card">
+        <div class="card-body login-card-body login-box-body">
+            <p class="login-box-msg" style="font-weight: 600;">Registra una cuenta nueva</p>
+
+            <div th:if="${error}" class="alert alert-danger py-2 small">
+                <i class="fas fa-exclamation-triangle mr-1"></i> <span th:text="${error}"></span>
+            </div>
+
+            <form th:action="@{/auth/registro}" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" name="nombreCompleto" class="form-control" placeholder="Nombre completo" required minlength="3">
+                    <div class="input-group-append">
+                        <div class="input-group-text"><i class="fas fa-user"></i></div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="email" name="email" class="form-control" placeholder="Correo electrónico" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text"><i class="fas fa-envelope"></i></div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Contraseña" required minlength="6">
+                    <div class="input-group-append">
+                        <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" name="confirmarPassword" id="confirmarPassword" class="form-control" placeholder="Confirmar contraseña" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="mt-1 small">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <a href="#" style="color:#999;">Términos y condiciones</a>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+                    </div>
+                </div>
+            </form>
+            <p class="mb-0 mt-2">
+                <a href="/auth/login" style="color: #666;">Ya tengo una cuenta</a>
+            </p>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+    const p = document.getElementById('password').value;
+    const c = document.getElementById('confirmarPassword').value;
+    if (p !== c) {
+        e.preventDefault();
+        alert('Las contraseñas no coinciden');
+    }
+});
+</script>
+</body>
+</html>

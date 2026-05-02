@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Inicio')}"></head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0" style="font-family:'Barlow Condensed',sans-serif; letter-spacing:2px;">
+                            <i class="fas fa-tachometer-alt mr-2" style="color:#e63946;"></i>PANEL PRINCIPAL
+                        </h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item active">Inicio</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="container-fluid">
+                <!-- Stat Cards -->
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box" style="background:#e63946; color:#fff;">
+                            <div class="inner">
+                                <h3 th:text="${totalVentas}">0</h3>
+                                <p>Órdenes de compra</p>
+                            </div>
+                            <div class="icon"><i class="fas fa-shopping-cart"></i></div>
+                            <a href="/ventas" class="small-box-footer" style="background:rgba(0,0,0,0.2);">
+                                Más información <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>$<span th:text="${montoVentas}">0</span></h3>
+                                <p>Ventas totales</p>
+                            </div>
+                            <div class="icon"><i class="fas fa-chart-line"></i></div>
+                            <a href="/ventas" class="small-box-footer">
+                                Más información <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3 th:text="${totalProductos}">0</h3>
+                                <p>Productos/Servicios</p>
+                            </div>
+                            <div class="icon"><i class="fas fa-dumbbell"></i></div>
+                            <a href="/productos" class="small-box-footer">
+                                Más información <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3 th:text="${totalUsuarios}">0</h3>
+                                <p>Usuarios registrados</p>
+                            </div>
+                            <div class="icon"><i class="fas fa-users"></i></div>
+                            <a href="#" class="small-box-footer">
+                                Más información <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ventas chart -->
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-chart-area mr-2"></i>Ventas por mes
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="ventasChart" style="height:280px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-danger card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fas fa-fire mr-2"></i>Últimas ventas</h3>
+                            </div>
+                            <div class="card-body p-0">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr><th>Cliente</th><th>Total</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="v : ${ultimasVentas}">
+                                            <td th:text="${v.nombreCliente}">-</td>
+                                            <td><span class="badge badge-danger">$<span th:text="${v.total}">0</span></span></td>
+                                        </tr>
+                                        <tr th:if="${#lists.isEmpty(ultimasVentas)}">
+                                            <td colspan="2" class="text-center text-muted">Sin ventas aún</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <strong>GymSystem</strong> &copy; 2024. Todos los derechos reservados.
+    </footer>
+</div>
+
+<div th:replace="~{fragments/layout :: scripts}"></div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script>
+const ctx = document.getElementById('ventasChart').getContext('2d');
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Ene','Feb','Mar','Abr','May','Jun','Jul'],
+        datasets: [{
+            label: 'Ventas',
+            data: [30, 45, 28, 55, 85, 25, 90],
+            borderColor: '#e63946',
+            backgroundColor: 'rgba(230,57,70,0.1)',
+            tension: 0.4,
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+    }
+});
+</script>
+</body>
+</html>

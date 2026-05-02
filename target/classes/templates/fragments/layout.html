@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title} + ' | GymSystem'">GymSystem</title>
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AdminLTE -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <!-- Custom -->
+    <style>
+        :root {
+            --gym-primary: #e63946;
+            --gym-dark: #1d1d2e;
+            --gym-accent: #f4a261;
+        }
+        body { font-family: 'Barlow', sans-serif; }
+        .brand-text { font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; letter-spacing: 2px; }
+        .main-header { background: var(--gym-dark) !important; }
+        .main-sidebar { background: var(--gym-dark) !important; }
+        .nav-sidebar .nav-link.active { background: var(--gym-primary) !important; }
+        .nav-sidebar .nav-link:hover { background: rgba(230,57,70,0.2) !important; }
+        .sidebar-dark-danger .sidebar a { color: #ccc !important; }
+        .btn-gym { background: var(--gym-primary); color: #fff; border: none; }
+        .btn-gym:hover { background: #c1121f; color: #fff; }
+        .card-stat { border-left: 4px solid var(--gym-primary); }
+        .small-box { border-radius: 8px; }
+    </style>
+</head>
+
+<!-- SIDEBAR fragment -->
+<div th:fragment="sidebar">
+    <aside class="main-sidebar sidebar-dark-danger elevation-4">
+        <a href="/inicio" class="brand-link" style="background: var(--gym-dark);">
+            <i class="fas fa-dumbbell ml-2" style="color: var(--gym-primary);"></i>
+            <span class="brand-text font-weight-light ml-2" style="color: #fff;">GYM<span style="color: var(--gym-primary);">SYSTEM</span></span>
+        </a>
+        <div class="sidebar">
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+                    <li class="nav-item">
+                        <a href="/inicio" class="nav-link" th:classappend="${currentPage == 'inicio' ? 'active' : ''}">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>Inicio</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/productos" class="nav-link" th:classappend="${currentPage == 'productos' ? 'active' : ''}">
+                            <i class="nav-icon fas fa-box"></i>
+                            <p>Productos/Servicios</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/ventas" class="nav-link" th:classappend="${currentPage == 'ventas' ? 'active' : ''}">
+                            <i class="nav-icon fas fa-cash-register"></i>
+                            <p>Ventas</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/facturacion" class="nav-link" th:classappend="${currentPage == 'facturacion' ? 'active' : ''}">
+                            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                            <p>Facturación</p>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a href="/auth/logout" class="nav-link">
+                            <i class="nav-icon fas fa-sign-out-alt"></i>
+                            <p>Salir</p>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+</div>
+
+<!-- NAVBAR fragment -->
+<div th:fragment="navbar">
+    <nav class="main-header navbar navbar-expand navbar-dark" style="background: var(--gym-dark);">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a></li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-user-circle mr-1"></i>
+                    <span sec:authentication="name">Usuario</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- ALERTS fragment -->
+<div th:fragment="alerts">
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle mr-2"></i>
+        <span th:text="${success}"></span>
+        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        <span th:text="${error}"></span>
+        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+    </div>
+</div>
+
+<!-- SCRIPTS fragment -->
+<div th:fragment="scripts">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+</div>
+</html>

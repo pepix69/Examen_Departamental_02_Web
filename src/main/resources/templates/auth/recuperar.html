@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Recuperar contraseña')}"></head>
+<body class="hold-transition login-page" style="background: linear-gradient(135deg, #1d1d2e 0%, #2d2d44 100%);">
+<div class="login-box">
+    <div style="color: #fff; text-align:center; margin-bottom:10px; font-family:'Barlow Condensed',sans-serif; letter-spacing:4px; font-size:3rem;">GYM<span style="color:#e63946;">SYSTEM</span></div>
+    <div class="card">
+        <div class="card-body login-card-body" style="border-radius:12px; border-top:4px solid #e63946;">
+            <p class="login-box-msg"><b>Recuperar contraseña</b></p>
+            <p class="text-muted text-sm">Ingresa tu correo y te enviaremos una nueva contraseña.</p>
+
+            <div th:if="${success}" class="alert alert-success py-2 small" th:text="${success}"></div>
+            <div th:if="${error}" class="alert alert-danger py-2 small" th:text="${error}"></div>
+
+            <form th:action="@{/auth/recuperar}" method="post">
+                <div class="input-group mb-3">
+                    <input type="email" name="email" class="form-control" placeholder="Tu correo electrónico" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text"><i class="fas fa-envelope"></i></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-block" style="background:#e63946; color:#fff; font-weight:700;">
+                            <i class="fas fa-paper-plane mr-2"></i>Enviar nueva contraseña
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <p class="mt-3 mb-1"><a href="/auth/login" style="color:#e63946;">Volver al inicio de sesión</a></p>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Ventas')}"></head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0" style="font-family:'Barlow Condensed',sans-serif; letter-spacing:2px;">
+                            <i class="fas fa-cash-register mr-2" style="color:#e63946;"></i>VENTAS
+                        </h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/inicio">Inicio</a></li>
+                            <li class="breadcrumb-item active">Ventas</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="container-fluid">
+                <div th:replace="~{fragments/layout :: alerts}"></div>
+
+                <div class="card card-outline card-danger">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-list mr-2"></i>Ventas</h3>
+                        <div class="card-tools">
+                            <a href="/ventas/nueva" class="btn btn-sm" style="background:#e63946; color:#fff;">
+                                <i class="fas fa-plus mr-1"></i>Nueva Venta
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre Cliente</th>
+                                    <th>Total</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="v : ${ventas}">
+                                    <td th:text="${v.id}"></td>
+                                    <td th:text="${v.nombreCliente}"></td>
+                                    <td><strong>$<span th:text="${v.total}"></span></strong></td>
+                                    <td th:text="${#temporals.format(v.fechaVenta, 'dd/MM/yyyy HH:mm')}"></td>
+                                    <td>
+                                        <a th:href="@{/ventas/detalle/{id}(id=${v.id})}" class="btn btn-xs btn-warning mr-1" title="Ver detalle">
+                                            <i class="fas fa-plus"></i> Productos/Servicios
+                                        </a>
+                                        <a th:href="@{/facturacion/generar/{id}(id=${v.id})}" class="btn btn-xs btn-success mr-1" title="Factura">
+                                            <i class="fas fa-file-invoice"></i>
+                                        </a>
+                                        <a th:href="@{/ventas/eliminar/{id}(id=${v.id})}"
+                                           class="btn btn-xs btn-danger"
+                                           onclick="return confirm('¿Eliminar esta venta?')">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(ventas)}">
+                                    <td colspan="5" class="text-center text-muted py-4">
+                                        <i class="fas fa-cash-register fa-2x mb-2 d-block"></i>No hay ventas registradas
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="main-footer"><strong>GymSystem</strong> &copy; 2024</footer>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
